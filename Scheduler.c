@@ -80,7 +80,7 @@ int Adv_Scheduler_Remove_Task(void (*exec)(void *), void *handle){
 int Adv_Scheduler_Disable_Task(void (*exec)(void *), void *handle){
 	for(int task = 0; task < n_o_tasks; task++){
 		if((tasks[task].exec == exec) && (tasks[task].handle == handle)){
-			disabled_tasks += (1 << task);
+			disabled_tasks |= (1 << task);
 			return 0;
 		}
 	}
@@ -112,7 +112,12 @@ void Adv_Scheduler_Update(){
 	for(int task = 0; task < n_o_tasks; task++){
 		if((disabled_tasks & (1 << task)) == 0){
 			if(tasks[task].delay == 0){
-				tasks[task].delay = tasks[task].period;
+				if(tasks[task].period == 0){
+					disabled_tasks |= (1 << task);
+				}
+				else{
+					tasks[task].delay = tasks[task].period;
+				}
 				tasks[task].run ++;
 			}
 			else{
