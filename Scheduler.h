@@ -8,7 +8,7 @@
 #ifndef INC_ADV_SCHEDULER_H_
 #define INC_ADV_SCHEDULER_H_
 
-#include "stm32l0xx_hal.h"
+#include <stdint.h>
 
 #define MAX_TASKS	32
 
